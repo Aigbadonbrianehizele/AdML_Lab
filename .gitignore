@@ -1,0 +1,14 @@
+# Python artifact caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Output directories
+output/
