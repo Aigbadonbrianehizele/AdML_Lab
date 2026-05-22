@@ -1,0 +1,31 @@
+{
+  "execution_order": [
+    "recon",
+    "env_audit",
+    "data_collect",
+    "model_probe",
+    "fgsm_attack",
+    "pgd_attack",
+    "transfer",
+    "exfil"
+  ],
+  "attack_frequencies": {
+    "recon": 1,
+    "env_audit": 1,
+    "model_probe": 1,
+    "fgsm_attack": 1,
+    "pgd_attack": 1,
+    "transfer": 1,
+    "data_collect": 1,
+    "exfil": 1
+  },
+  "final_loss_window": [
+    1.0482,
+    0.8357,
+    1.176,
+    0.8726,
+    1.3153
+  ],
+  "converged": true,
+  "timestamp": "2026-05-19T19:43:23.927794"
+}
