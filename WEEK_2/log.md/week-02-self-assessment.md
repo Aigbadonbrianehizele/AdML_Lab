@@ -2,7 +2,7 @@
 
 frequency_oracle.py quality (1-5 + justification):I had to rate it 1 because manual implementation with no optimization, makes it run slowly, but this is expected with starte code.
 attack_scheduler.py quality (1-5 + justification):I had to rate it 1 because _sift_down() method was causing an infinite loop when I first ran pipeline.py because j = (2*i) + 1 was mssing for the two swaps
-attack_graph.py quality (1-5 + justification):I rate 1 because the truth while the code shows promise it would be slow compared to industry standarc which probably has dedicated libraries
+attack_graph.py quality (1-5 + justification):I rate 3 because the truth while the code shows promise it would be slow compared to industry standarc which probably has dedicated libraries
 loss_buffer.py quality (1-5 + justification):Honestly I liked this one this it was short direct but the thing is it not industry standard
 pipeline.py quality (1-5 + justification):The most fun I have ever had I got to do samething twice and it was good but the main drawback is that we have to import methods for scripts that are not industry standard
 log.md quality (1-5 + justification):I rated it 2 because we are still beginning we are really well versed with this but with time we get sharper vocabularies and better descriptions with time and more confidence in our skill
