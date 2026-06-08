@@ -26,7 +26,7 @@ def scan_pickle(filepath: str) -> list:
 def safe_load(filepath: str) -> bytes:
     scanpath = scan_pickle(filepath)
     if len(scanpath) != 0:
-        raise SecurityError
+        raise SecurityError(f"Dangerous opcodes found: {scanpath}")
     else:
         with open(filepath,'rb') as f:
             data_1 = f.read()
@@ -44,6 +44,12 @@ def audit_report(filepath:str) -> dict:
     full_audit = {"filepath":filepath, "file_size_bytes":os.path.getsize(filepath), "opcodes_found": audit, "dangerous_count": dangerous_count, "risk_level": risk_level, "safe_to_load": risk_level == 'CLEAN'}
     return full_audit
 if __name__ == "__main__":
+    print(scan_pickle('/tmp/does_not_exist.pkl'))
+    open('/tmp/empty.pkl', 'wb').close()
+    print(audit_report('/tmp/empty.pkl'))
+    with open('/tmp/fake.pkl', 'w') as f:
+        f.write('this is just text')
+    print(scan_pickle('/tmp/fake.pkl'))
     with open('/tmp/large.pkl', 'wb') as f:
         pickle.dump(list(range(100000)), f)
-    print(audit_report('/tmp/large.pkl'))         # correct CLEAN result?           # what does your scanner return?
+    print(audit_report('/tmp/large.pkl'))       
