@@ -18,7 +18,6 @@ def get_python_info() -> dict:
     
     python_info = {'version': version,'executable':executable,'platform':os_platform,'in_venv':in_venv,'venv_path':venv_path}
     return python_info
-print(get_python_info())
 
 def get_installed_packages() -> dict:
     installed_packages = {}
@@ -27,7 +26,6 @@ def get_installed_packages() -> dict:
         version = dependency.metadata["Version"]
         installed_packages[name] = version
     return installed_packages
-print(get_installed_packages())
 
 def flag_unpinned(requirements_path: str) -> list:
     flagged = []
@@ -41,7 +39,6 @@ def flag_unpinned(requirements_path: str) -> list:
             if '==' not in line and '>=' not in line and '~=' not in line:
                 flagged.append(line)
     return flagged
-print(flag_unpinned('C:/Users/DELL/tmp/test_req.txt'))
 
 def write_snapshot(output_path: str) -> None :
     timestamp = datetime.datetime.now().isoformat()
@@ -49,13 +46,17 @@ def write_snapshot(output_path: str) -> None :
     os.makedirs(os.path.dirname(output_path), exist_ok = True)
     with open(output_path,'w') as f:
         json.dump(snapshot,f, indent = 2 )
-write_snapshot('C:/Users/DELL/tmp/env_snapshot.json')
-open('C:/Users/DELL/tmp/empty_req.txt', 'w').close()
-print(flag_unpinned('C:/Users/DELL/tmp/empty_req.txt')) 
-with open('/tmp/messy_req.txt', 'w') as f:
-    f.write('# production deps\n\nnumpy==1.24.0\n\n# dev\npytest\n')
-print(flag_unpinned('/tmp/messy_req.txt'))   
-write_snapshot('C:/Users/DELL/tmp/newdir/deep/snapshot.json')
+if __name__ == '__main__':
+    print(get_python_info())
+    print(get_installed_packages())
+    print(flag_unpinned('C:/Users/DELL/tmp/test_req.txt'))
+    write_snapshot('C:/Users/DELL/tmp/env_snapshot.json')
+    open('C:/Users/DELL/tmp/empty_req.txt', 'w').close()
+    print(flag_unpinned('C:/Users/DELL/tmp/empty_req.txt')) 
+    with open('C:/Users/DELL/tmp/messy_req.txt', 'w') as f:
+        f.write('# production deps\n\nnumpy==1.24.0\n\n# dev\npytest\n')
+    print(flag_unpinned('C:/Users/DELL/tmp/messy_req.txt'))   
+    write_snapshot('C:/Users/DELL/tmp/newdir/deep/snapshot.json')
 
 
 
