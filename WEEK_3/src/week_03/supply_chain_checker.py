@@ -4,11 +4,16 @@ from week_03.env_auditor import get_python_info, get_installed_packages, write_s
 
 import json, os, datetime, sys
 def pre_flight_check(model_path: str, requirements_path: str = None) -> dict:
+    warnings = []
     python_info =  get_python_info()
     packages = get_installed_packages()
     env_auditor = {'python_info':python_info, 'installed_packages_count':len(packages)}
     if requirements_path is not None:
-        unpinned = flag_unpinned(requirements_path)
+        try:
+            unpinned = flag_unpinned(requirements_path)
+        except FileNotFoundError as e:
+            unpinned =  None
+            warnings.append("The requirement path can't be found")
     else:
         unpinned =  None
     try:
@@ -16,7 +21,6 @@ def pre_flight_check(model_path: str, requirements_path: str = None) -> dict:
     except FileNotFoundError:
         print(f"{model_path} doesn't exist")
         audit = {'risk_level': "MALICIOUS" ,'dangerous_count': 0 , 'opcodes_found': [],}
-    warnings = []
     if python_info['in_venv'] == False:
         warnings.append("You are currently trying to make use of pipeline outside the virtual environment")
 
@@ -45,8 +49,5 @@ def run_and_save(model_path: str, requirements_path: str = None, output_path: st
         print(f"BLOCKED — BECAUSE THE FILE IS EMPTY")
     elif pre_check['env_snapshot']['python_info']['in_venv'] == False:
         print(f"BLOCKED — BECAUSE YOU ARE OPERATING OUTSIDE THE VIRTUAL ENVIRONMENT")
-if __name__ == "__main__":
-   run_and_save('C:/Users/DELL/tmp/benign.pkl',    'C:/Users/DELL/tmp/test_req.txt')
-   run_and_save('C:/Users/DELL/tmp/malicious.pkl', 'C:/Users/DELL/tmp/test_req.txt')
 
 
