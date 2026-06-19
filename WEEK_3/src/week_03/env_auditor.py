@@ -30,7 +30,7 @@ def get_installed_packages() -> dict:
 def flag_unpinned(requirements_path: str) -> list:
     flagged = []
     if not os.path.exists(requirements_path):
-        raise FileNotFoundError(f"Requiremnts file path not found {requirements_path}")
+        raise FileNotFoundError(f"Requirements file path not found {requirements_path}")
     with open(requirements_path) as f:
         for line in f:
             line = line.strip()
