@@ -18,20 +18,12 @@ def scan_pickle(filepath: str) -> list:
         raise FileNotFoundError
     if os.path.getsize(filepath) == 0:
         raise ValueError
-    with open(filepath, 'rb') as f:
-        scan = io.StringIO()
-        old_stdout = sys.stdout
-        sys.stdout = scan
-        pickletools.dis(f)
-        sys.stdout = old_stdout
-        result = scan.getvalue()
     findings = []
-    result_lines = result.splitlines()
-    for line in result_lines:
-        part = line.split()
-        opcodes = part[2]
-        if opcodes in DANGEROUS_OPCODES.values():
-            findings.append({'opcode': opcodes, 'offset': int(part[0].strip(':'))})
+    dangerous = set(DANGEROUS_OPCODES.values())
+    with open(filepath, 'rb') as f:
+        for opcode, arg, pos in pickletools.genops(f):
+            if opcodes.name in dangerous:
+                findings.append({'opcode': opcode.name, 'offset': pos})
     return findings
 
             
