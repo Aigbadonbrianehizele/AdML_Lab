@@ -19,7 +19,6 @@ def normalize(x, mean, std) -> np.ndarray:
     return division
 x = np.array([[[[1,2],[3,4]], [[5,6],[7,8]], [[9,10],[11,12]]],[[[2,2],[2,2]], [[3,3],[3,3]], [[4,4],[4,4]]]])
 
-import numpy as np
 def batch_matmul_einsum(A, B):
     return np.einsum('bik,bkj->bij', A, B)
 
