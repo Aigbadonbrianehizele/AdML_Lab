@@ -28,16 +28,16 @@ def outer_product_einsum(a, b):
 def trace_einsum(A):
     return np.einsum('ii->', A)
 
-x_3 = np.random.rand(4,3 ,3)
-x_2 = np.random.rand(4,3 ,5) 
-print(np.allclose(batch_matmul_einsum(x_3,x_2),np.matmul(x_3,x_2)))
+#x_3 = np.random.rand(4,3 ,3)
+#x_2 = np.random.rand(4,3 ,5) 
+#print(np.allclose(batch_matmul_einsum(x_3,x_2),np.matmul(x_3,x_2)))
 
-x_1 = np.random.rand(3)
-x_5 = np.random.rand(3)
-print(np.allclose(outer_product_einsum(x_1, x_5),np.outer(x_1,x_5)))
+#x_1 = np.random.rand(3)
+#x_5 = np.random.rand(3)
+#print(np.allclose(outer_product_einsum(x_1, x_5),np.outer(x_1,x_5)))
 
-x_6 = np.random.rand(3 ,3)
-print(np.allclose(trace_einsum(x_6),np.trace(x_6)))
+#x_6 = np.random.rand(3 ,3)
+#print(np.allclose(trace_einsum(x_6),np.trace(x_6)))
 
-print(flatten_batch(x).shape)      # expect (2, 12)
-print(channel_mean(x))             # expect [2.25, 4.75, 7.25]
+#print(flatten_batch(x).shape)      # expect (2, 12)
+#print(channel_mean(x))             # expect [2.25, 4.75, 7.25]
