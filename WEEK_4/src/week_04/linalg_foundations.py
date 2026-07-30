@@ -67,12 +67,12 @@ def top_singular_direction(W: np.ndarray) -> np.ndarray:
     U, S, Vt = np.linalg.svd(W)
     return U[:,0]
 
-x = np.array([0.2, 0.4, 0.6, 0.8])
-delta = np.array([0.05, -0.05, 0.05, -0.05])
-print('L1:', l1_norm(delta))
-print('L2:', l2_norm(delta))
-print('Linf:', linf_norm(delta))
-print('x_adv:', add_bounded_perturbation(x, delta, epsilon=0.01, norm='linf'))
+#x = np.array([0.2, 0.4, 0.6, 0.8])
+#delta = np.array([0.05, -0.05, 0.05, -0.05])
+#print('L1:', l1_norm(delta))
+#print('L2:', l2_norm(delta))
+#print('Linf:', linf_norm(delta))
+#print('x_adv:', add_bounded_perturbation(x, delta, epsilon=0.01, norm='linf'))
     
 
 
