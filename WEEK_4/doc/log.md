@@ -194,8 +194,3 @@ No bug was found.
 **Transferable principle:**
 Momentum can satisfy the same stability condition (|1-lr·λ_i|<1) as plain gradient descent and still converge, but it reaches the minimum through decaying oscillation rather than a direct path, because momentum*v_old dominates v_new near the point of overshoot, delaying the sign reversal by several steps.
 
-
-(4, 3, 32, 32)
-(5, 7, 32, 32)
-Actually here two axis the axis zero and the second axis both violate the condition number 1 comparing 4 to 5, 3,7
-
