@@ -38,7 +38,7 @@ def jacobian(f, x: np.ndarray, h=1e-5) -> np.ndarray:
 
 ## lamba does the job of creatting a function instead of calling 
 ##def derivative(x):
-##    return f(x)[i] we jusy use lambda x: f(x)[i]
+#    return f(x)[i] we jusy use lambda x: f(x)[i]
 
 
 

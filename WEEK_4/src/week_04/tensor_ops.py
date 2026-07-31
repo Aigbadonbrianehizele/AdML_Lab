@@ -19,7 +19,6 @@ def normalize(x, mean, std) -> np.ndarray:
     return division
 #x = np.array([[[[1,2],[3,4]], [[5,6],[7,8]], [[9,10],[11,12]]],[[[2,2],[2,2]], [[3,3],[3,3]], [[4,4],[4,4]]]])
 
-
 #a = np.random.randn(4, 3, 32, 32)
 #b = np.random.randn(5,7,32,32)
 #result = a + b
@@ -47,3 +46,7 @@ def trace_einsum(A):
 #print(flatten_batch(x).shape)      
 #print(channel_mean(x))   
 #print(result.shape)       
+
+#print(flatten_batch(x).shape)      # expect (2, 12)
+#print(channel_mean(x))             # expect [2.25, 4.75, 7.25]
+
