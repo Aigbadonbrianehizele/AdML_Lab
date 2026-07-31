@@ -43,18 +43,18 @@ def jacobian(f, x: np.ndarray, h=1e-5) -> np.ndarray:
 
 
 
-y_pred=[2.1, 0.5, 1.8]
-y_true=[2.0, 1.0, 2.0]
-W = np.random.randn(3, 4)
-f = lambda x: W @ x
-x = np.random.randn(4)
-J = jacobian(f, x)
+#y_pred=[2.1, 0.5, 1.8]
+#y_true=[2.0, 1.0, 2.0]
+#W = np.random.randn(3, 4)
+#f = lambda x: W @ x
+#x = np.random.randn(4)
+#J = jacobian(f, x)
 
-if __name__ == "__main__":
-    print(mse_loss(y_pred, y_true))
-    print(mse_loss_gradient(y_pred, y_true))
-    print(J)
-    print('Jacobian matches W:', np.allclose(J, W, atol=1e-4))
+#if __name__ == "__main__":
+#    print(mse_loss(y_pred, y_true))
+#    print(mse_loss_gradient(y_pred, y_true))
+#    print(J)
+#    print('Jacobian matches W:', np.allclose(J, W, atol=1e-4))
     
 
 

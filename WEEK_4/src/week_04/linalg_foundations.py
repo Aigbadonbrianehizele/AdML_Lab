@@ -51,12 +51,28 @@ def add_bounded_perturbation(x, delta, epsilon, norm='linf') -> np.ndarray :
         x_adv = x + delta
         return x_adv
 
-x = np.array([0.2, 0.4, 0.6, 0.8])
-delta = np.array([0.05, -0.05, 0.05, -0.05])
-print('L1:', l1_norm(delta))
-print('L2:', l2_norm(delta))
-print('Linf:', linf_norm(delta))
-print('x_adv:', add_bounded_perturbation(x, delta, epsilon=0.01, norm='linf'))
+def matrix_multiply(A, B):
+    A = np.array(A)
+    B = np.array(B)
+    if A.shape[1] != B.shape[0]:
+        raise ValueError(f"{A.shape[1]} is not the same as {B.shape[0]}")
+    result = np.zeros((A.shape[0], B.shape[1]))
+    for i in range(A.shape[0]):
+        for j in range(B.shape[1]):
+            for k in range(B.shape[0]):
+                result[i,j] += A[i,k]*B[k,j]
+    return result
+
+def top_singular_direction(W: np.ndarray) -> np.ndarray:
+    U, S, Vt = np.linalg.svd(W)
+    return U[:,0]
+
+#x = np.array([0.2, 0.4, 0.6, 0.8])
+#delta = np.array([0.05, -0.05, 0.05, -0.05])
+#print('L1:', l1_norm(delta))
+#print('L2:', l2_norm(delta))
+#print('Linf:', linf_norm(delta))
+#print('x_adv:', add_bounded_perturbation(x, delta, epsilon=0.01, norm='linf'))
     
 
 
