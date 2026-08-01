@@ -72,7 +72,7 @@ For the gradient loss to be stable ' 0 < lr.λ < 2', but for this function lr = 
 **Transferable principle:**
 Stability of gradient descent is governed by the constraint '0 < lr·λ < 2', so its a function of lr.λ, not lr alone, as the eigenvalues of 'A' set binding constraint, so all eigenvalues must be satisfied before stability of gradient descent is met.
 
-**Injection 2: Non-positive-definite A**
+## Injection 2: Non-positive-definite A
 **Prediction (pre-run):**
 For the loss function to be stable A must be a positive definite square matrix, hence
 
@@ -116,7 +116,7 @@ This isn't a bug to patch in the code as the input is the violating the pre cond
 **Transferable principle:**
 When analyzing this is specific instance on a graph you notice the loss function continues to decrease, the two components of w move in opposite direction for each loss function on the graph. This behaviour is not decided by the loss trend, its described by the eigenvalues of A, as there are postive and negative values for eigenvalues hence the '|1-lr·λ_i| < 1' converges at point 'λ = 1', and diverges at the point 'λ = -1' , so the net effect is divergence and this cause the corresponding weight components to travel in opposing direction whilst loss function tends to negative infinity.
 
-## Injection 2 — Non-Positive-Definite A
+## Injection 3 — Gradient failure check
 
 **Prediction (pre-run):**
 I expected the value of difference between w components of numerical_gradients and quadratic_gradient to be within range of O(h²) 
@@ -193,4 +193,51 @@ No bug was found.
 
 **Transferable principle:**
 Momentum can satisfy the same stability condition (|1-lr·λ_i|<1) as plain gradient descent and still converge, but it reaches the minimum through decaying oscillation rather than a direct path, because momentum*v_old dominates v_new near the point of overshoot, delaying the sign reversal by several steps.
+## SELF ASSESSMENT
+**linalg_foundations.py quality (1-5 + justification):** 
+I rate it 4 because I executed my task which was too write function that mirror in-built NumPy functions.
+- vector_add — mimics np.add / a + b
+- scalar_vector — mimics np.multiply for scalar multiplication
+- dot_product — mimics np.dot
+- l1_norm — mimics np.linalg.norm(v, ord=1)
+- l2_norm — mimics np.linalg.norm(v) (default ord=2)
+- linf_norm — mimics np.linalg.norm(v, ord=np.inf)
+- add_bounded_perturbation — no direct built-in, composite gate using the norm functions above (closest related built-in: np.clip for a projection-style version)
+- matrix_multiply — mimics np.matmul / A @ B
+- top_singular_direction — wraps np.linalg.svd directly, not a from-scratch mimic  
+and before I wrote out the code for all the funcion I truly mimicked apart from top_singular_direction I solved questions on each so I can visualize the math properly. 
+Not a 5: top_singular_direction was never verified at all (no test against np.linalg.svd output).  The six hand-rolled functions had their math cross-checked externally before coding, then the code was verified against the external math solutions
 
+**gradients.py quality (1-5 + justification):**
+I rate it 4. I wrote  mse_loss / mse_loss_gradient, numerical_gradient (finite-difference), and jacobian mirroring the gradient-checking pattern PyTorch's autograd verifies against internally.
+
+Verification run (y_pred=[2.1,0.5,1.8], y_true=[2.0,1.0,2.0]):
+analytical: [0.06666667 -0.33333333 -0.13333333]
+numerical:  [0.06666667 -0.33333333 -0.13333333]
+match: True
+
+jacobian(f,x) vs W check also confirmed True (f(x)=W@x).
+
+P4.2 (two-layer backprop, dL/dx derivation) done on paper only, per session plan — not required in code this week.
+
+Not a 5: gradient-check above was run tonight during self-assessment, not at the time gradients.py was originally written
+
+**tensor_ops.py quality (1-5 + justification):**
+5/5. Implemented flatten_batch, channel_mean, normalize (broadcasting-based), and the three einsum patterns (batch_matmul, outer_product, trace), verified against np.matmul/np.outer/np.trace and week4_check.ps1 passing clean.
+
+Documented three broadcasting failure cases with verbatim tracebacks and correct right-aligned axis-by-axis diagnosis (case 1: axis-2-from-right mismatch 3v5, case 2: middle axis mismatch 32v12, case 3: double mismatch on two axes simultaneously 4v5 and 3v7) — real errors triggered and logged, not just described from the rule.
+
+**loss_landscape.py quality (1-5 + justification):**
+4/5. All four injections run with verbatim output, correct eigenvalue-based causal analysis for both divergence cases (Injection 1: dominant-eigenvalue blowup with self-caught rounding error in the prediction; Injection 2: mixed-sign eigenvalues causing net divergence despite one stable direction and a still-decreasing loss curve), gradient-check confirming quadratic_gradient against numerical_gradient to O(h²) tolerance with an honest note on shared-dependency limits of that check, and Injection 4 correctly diagnosing momentum-driven decaying oscillation with an honest process note (ran without a pre-committed prediction).
+
+Not a 5: M2 connection field left blank on every injection — same gap as log.md, for the same honest reason: not filling it with a connection I don't yet understand well enough to state correctly. Revisit after M2 opens.
+
+**log.md quality (1-5 + justification):**
+4/5. Every entry (linalg broadcasting cases, all four loss_landscape injections) has verbatim output, causal WHY explained through actual mechanism (eigenvalue decomposition for divergence cases, O(h²) reasoning for the gradient-check, momentum overshoot dynamics for Injection 4), exact fix or honest "no bug found" where applicable, and a real transferable principle each time — not vague restatements.
+
+Not a 5: the M2 connection field — required per ROT47's 5-question standard, restated for M1 as "one sentence on which M2 attack this math enables" — was never filled in on any entry. Rather than backfill it with a connection I don't actually understand yet, leaving it honestly marked TBD until I can state it for real after M2 opens.
+**What gradient descent taught me about why PGD works in M2:**
+**What the Jacobian taught me about adversarial perturbation direction:**
+Jacobian shows the output with respect to input from this an attacker can tell which value he need to tweak which cause a great change(steepest increase) in loss whilst being small enough that the goes undetected.
+**What I would do differently if Week 4 started again:**
+Make better use of time, so I need to add filler time to account for mistakes, burnout or time wasting into my full time tracking for ROT47 lest I risk wasting 4-5 weeks everytime
